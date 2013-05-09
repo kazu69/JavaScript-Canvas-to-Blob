@@ -44,12 +44,14 @@
                     i,
                     mimeString,
                     bb;
+                // For line feed may enter every 76 characters, 
+                // remove the line break code if it was obtained from the mail object in the standard MIME.
                 if (dataURI.split(',')[0].indexOf('base64') >= 0) {
                     // Convert base64 to raw binary data held in a string:
-                    byteString = atob(dataURI.split(',')[1]);
+                    byteString = atob((dataURI.split(',')[1]).replace(/\s/g, ''));
                 } else {
                     // Convert base64/URLEncoded data component to raw binary data:
-                    byteString = decodeURIComponent(dataURI.split(',')[1]);
+                    byteString = decodeURIComponent((dataURI.split(',')[1]).replace(/\s/g, ''));
                 }
                 // Write the bytes of the string to an ArrayBuffer:
                 arrayBuffer = new ArrayBuffer(byteString.length);
